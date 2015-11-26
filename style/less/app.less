@@ -1,0 +1,29 @@
+@import "constants.less";
+@import "app.less";
+@import "flexbox.less";
+
+body {
+	font-family: @font-family;
+	font-size: @font-size;
+}
+
+html, body {
+	margin: 0;
+	height: 100%;
+}
+
+#app {
+	height: 100%;
+}
+
+.app-root {
+	.flex-display(flex);
+	height: 100%;
+}
+
+.content {
+	height: 100%;
+	color: @color;
+	background-color: @background-color-secondary;
+	.flex-grow(1);
+}

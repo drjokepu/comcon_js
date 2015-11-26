@@ -1,0 +1,27 @@
+.flex-display(@mode) when (@mode = flex) {
+	display: -webkit-flex;		
+}
+
+.flex-display(@mode) {
+	display: @mode;
+}
+
+.flex-direction(@mode) {
+	-webkit-flex-direction: @mode;
+	flex-direction: @mode;
+}
+
+.flex-justify-content(@mode) {
+	-webkit-justify-content: @mode;
+	justify-content: @mode;
+}
+
+.flex-align-items(@mode) {
+	-webkit-align-items: @mode;
+	align-items: @mode;
+}
+
+.flex-grow(@val) {
+	-webkit-flex-grow: @val;
+	flex-grow: @val;
+}
