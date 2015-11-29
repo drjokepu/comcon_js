@@ -1,7 +1,9 @@
 import home from './home.js';
+import settings from './settings/';
 
 const controllers = [
-    home
+    home,
+    settings.plugins
 ];
 
 export default controllers;

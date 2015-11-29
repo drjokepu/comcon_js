@@ -1,4 +1,21 @@
 .content {
 	padding-left: @content-padding-left;
 	padding-right: @content-padding-right;
+	display: flex;
+	flex-direction: column;
+}
+
+.content>div {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 5;
+}
+
+.loading {
+	display: flex;
+	flex-direction: column;
+	flex-grow: 5;
+	flex-shrink: 5;
+	justify-content: center;
+	align-items: center;
 }

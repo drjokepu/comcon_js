@@ -15,12 +15,17 @@ var MenuBar = React.createClass({
 				<MenuItem urlPrefix=""><NavLink href="">Dashboard</NavLink></MenuItem>
 				<MenuItem urlPrefix="settings">
 					<NavLink href="settings">Settings</NavLink>
+					<SubMenu urlPrefix="settings">
+						<SubMenuItem urlPrefix="settings/plugins">
+							<NavLink href="settings/plugins">Plugins</NavLink>
+							<SubMenu urlPrefix="settings/plugins">
+								<SubMenuItem urlPrefix="settings/plugins/installed">
+									<NavLink href="settings/plugins/installed">Installed Plugins</NavLink>
+								</SubMenuItem>
+							</SubMenu>
+						</SubMenuItem>
+					</SubMenu>
 				</MenuItem>
-				<SubMenu urlPrefix="settings">
-					<SubMenuItem urlPrefix="settings/plugins">
-						<NavLink href="settings/plugins">Plugins</NavLink>
-					</SubMenuItem>
-				</SubMenu>
 			</ul>
 		);
 	}

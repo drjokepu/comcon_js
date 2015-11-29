@@ -1,5 +1,6 @@
 var colors = require('colors/safe');
 var fs = require('fs');
+var formatError = require('format-error').format;
 var os = require('os');
 var path = require('path');
 
@@ -51,7 +52,9 @@ function watch(name, srcPath, callback, extFilter) {
 					shouldRebuild = false;
 					process.nextTick(didChange);
 				}
-			}).done();
+			}).catch(function (err) {
+                console.error(formatError(err));
+            }).done();
 		}
 	}
 

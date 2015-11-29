@@ -41,7 +41,7 @@ export class RoutingStore extends events.EventEmitter {
 		if (fullPath.indexOf(_config.baseUrl) !== 0) {
 			throw new Error(`Path ${fullPath} does not start with base URL (${_config.baseUrl}).`);
 		} else {
-			const stripped = fullPath.substr(_config.baseUrl.length);
+			const stripped = fullPath.substr(`${_config.baseUrl}/app`.length);
 			if (stripped.length > 0 && stripped.charAt(0) === '/') {
 				return stripped.substr(1);
 			} else {

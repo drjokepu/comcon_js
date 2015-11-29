@@ -3,7 +3,7 @@
 
 .menu-bar {
 	.flex-list();
-	
+
 	height: 100%;
 	width: @menu-bar-width;
 	color: @color-dark-background;
@@ -12,7 +12,7 @@
 .menu-item-base() {
 	.flex-display(flex);
 	.flex-direction(column);
-	.flex-justify-content(center);	
+	.flex-justify-content(center);
 }
 
 .menu-bar-header {
@@ -26,23 +26,24 @@
 @menu-item-active-border-width: 2px;
 @menu-item-default-padding: @menu-item-active-border-width + (2 * @default-gap-size);
 
-.menu-item {	
+.menu-item {
 	.menu-item-base();
 	margin-left: @menu-item-margin - @menu-item-default-padding;
+	margin-right: @menu-item-margin - @menu-item-default-padding;
 	padding-left: @menu-item-default-padding;
 	text-transform: uppercase;
 	font-weight: 100;
 	font-size: @menu-item-font-size;
 	letter-spacing: 0.08em;
-	
+
 	&>a {
 		color: @color-dark-background;
 		text-decoration: none;
 	}
-	
+
 	&.menu-item-active {
 		padding-left: 0px;
-		
+
 		&>a.nav-link {
 			border-left: @menu-item-active-border-width solid @color-dark-background;
 			padding-left: 2 * @default-gap-size;
@@ -53,21 +54,22 @@
 
 .sub-menu {
 	.flex-list();
+	margin-left: @menu-item-default-padding;
 }
 
 .sub-menu-item {
 	.menu-item-base();
-	
+
 	text-transform: none;
 	font-weight: 100;
 	font-size: @sub-menu-item-font-size;
 	letter-spacing: 0.08em;
-	
+
 	&>a {
 		color: @color-dark-background;
 		text-decoration: none;
 	}
-	
+
 	&.menu-item-active {
 		font-weight: 200;
 	}

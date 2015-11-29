@@ -13,7 +13,7 @@ var HistoryManager = React.createClass({
 		window.removeEventListener('popstate', this.didPopState);
 	},
 	routeChanged: function() {
-		const newPath = _config.baseUrl + '/' + stores.routing.path;
+		const newPath = `${_config.baseUrl}/app/${stores.routing.path}`;
 		if (window.location.pathname !== newPath) {
 			history.pushState({}, '', newPath);
 		}

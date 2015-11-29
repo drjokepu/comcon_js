@@ -23,11 +23,9 @@ var SubMenu = React.createClass({
 	render: function () {
 		if (PathTracking.isMatch(this.props, this.state)) {
 			return (
-				<li className="menu-item">
-					<ul className="sub-menu">
-						{this.props.children}
-					</ul>
-				</li>
+				<ul className="sub-menu">
+					{this.props.children}
+				</ul>
 			);
 		} else {
 			return null;

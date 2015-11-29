@@ -1,7 +1,9 @@
 import React from 'react';
 
-import Plugins from './settings/plugins/plugins.js';
 import Settings from './settings/settings.js';
+import Plugins from './settings/plugins/plugins.js';
+import InstalledPlugins from './settings/plugins/installed-plugins.js';
+
 import stores from '../stores/stores.js';
 
 var Content = React.createClass({
@@ -26,7 +28,9 @@ var Content = React.createClass({
 			case 'settings':
 				return <Settings />;
 			case 'settings/plugins':
-				return <Plugins />
+				return <Plugins />;
+			case 'settings/plugins/installed':
+				return <InstalledPlugins />;
 			default:
 				return null;
 		}
