@@ -63,8 +63,6 @@ InstalledPluginsStore.InstalledPluginsPayload = class InstalledPluginsPayload {
 
 InstalledPluginsStore.InstalledPluginsPayload.TYPE = 'settings_plugins_installed_plugins';
 
-var store = null;
-
 class InstalledPluginsController {
     static load() {
         return ajax.getJSON(_config.baseUrl + '/data/settings/plugins/installed-plugins').then(res => {
@@ -73,22 +71,36 @@ class InstalledPluginsController {
     }
 }
 
-var InstalledPlugins = React.createClass({
-    componentDidMount: function() {
-        store = new InstalledPluginsStore(stores.dispatcher);
-        store.addChangeListener(this.didStoreChange);
+class InstalledPlugins extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            plugins: []
+        };
+        
+        this.__didStoreChange = this.didStoreChange.bind(this);
+    }
+    
+    didStoreChange() {
+        this.setState({
+            plugins: store.getInstalledPlugins()
+        });
+    }
+    
+    componentDidMount() {
+        this.store = new InstalledPluginsStore(stores.dispatcher);
+        this.store.addChangeListener(this.___didStoreChange);
         InstalledPluginsController.load().done();
         this.forceUpdate();
-    },
-    componentWillUnmount: function() {
-        store.removeChangeListener(this.didStoreChange);
-        store.unload();
-        store = null;
-    },
-    didStoreChange: function() {
-        this.forceUpdate();
-    },
-	render: function() {
+    }
+    
+    componentWillUnmount() {
+        this.store.removeChangeListener(this.____didStoreChange);
+        this.store.unload();
+        this.store = null;
+    }
+    
+    render() {
         if (!store) {
             return null;
         }
@@ -97,7 +109,7 @@ var InstalledPlugins = React.createClass({
         if (store.isLoading()) {
             content = <Loading />;
         } else {
-            content = <InstalledPluginList />;
+            content = <InstalledPluginList plugins={this.state.plugins} />;
         }
 
 		return (
@@ -106,31 +118,27 @@ var InstalledPlugins = React.createClass({
                 {content}
             </div>
         );
-	}
-});
-
-var InstalledPluginList = React.createClass({
-    render: function() {
-        let items = store.getInstalledPlugins().map(p => <InstalledPluginListItem plugin={p} />);
-        return <ul className="installed-plugin-list">{items}</ul>;
     }
-})
+}
 
-var InstalledPluginListItem = React.createClass({
-    render: function() {
-        const pluginNameLabel = this.props.plugin.name;
-        const pluginVersionLabel = this.props.plugin.found ? this.props.plugin.version : 'missing';
+function InstalledPluginList(props) {
+    const items = props.plugins.map(p => <InstalledPluginListItem plugin={p} />);
+    return <ul className="installed-plugin-list">{items}</ul>;
+}
 
-        return (
-            <li className="installed-plugin-list-item">
-                <div>
-                    <span className="installed-plugin-name">{pluginNameLabel}</span>
-                    <span> </span>
-                    <span className="installed-plugin-version">{pluginVersionLabel}</span>
-                </div>
-            </li>
-        );
-    }
-});
+function InstalledPluginListItem(props) {
+    const pluginNameLabel = this.props.plugin.name;
+    const pluginVersionLabel = this.props.plugin.found ? this.props.plugin.version : 'missing';
+
+    return (
+        <li className="installed-plugin-list-item">
+            <div>
+                <span className="installed-plugin-name">{pluginNameLabel}</span>
+                <span> </span>
+                <span className="installed-plugin-version">{pluginVersionLabel}</span>
+            </div>
+        </li>
+    );
+}
 
 export default InstalledPlugins;

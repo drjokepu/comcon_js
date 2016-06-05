@@ -3,24 +3,31 @@ import React from 'react';
 import PathTracking from './path-tracking.js';
 import stores from '../../stores/stores.js';
 
-var SubMenu = React.createClass({
-	getInitialState: function() {
-		return {
+class SubMenu extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
 			path: stores.routing.path
 		};
-	},
-	componentDidMount: function() {
-		stores.routing.addChangeListener(this.routeChanged);
-	},
-	componentWillUnmount: function() {
-		stores.routing.removeChangeListener(this.routeChanged);
-	},
-	routeChanged: function() {
+		
+		this.__routeChanged = this.routeChanged.bind(this);
+	}
+	
+	componentDidMount() {
+		stores.routing.addChangeListener(this.__routeChanged);
+	}
+	
+	componentWillUnmount() {
+		stores.routing.removeChangeListener(this.__routeChanged);
+	}
+	
+	routeChanged() {
 		this.setState({
 			path: stores.routing.path
 		});
-	},
-	render: function () {
+	}
+	
+	render() {
 		if (PathTracking.isMatch(this.props, this.state)) {
 			return (
 				<ul className="sub-menu">
@@ -31,6 +38,6 @@ var SubMenu = React.createClass({
 			return null;
 		}
 	}
-});
+}
 
 export default SubMenu;

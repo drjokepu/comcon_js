@@ -1,9 +1,9 @@
 import React from 'react';
 
-var Settings = React.createClass({
-	render: function() {
+class Settings extends React.Component {
+	render() {
 		return <h2>Settings</h2>;
 	}
-});
+}
 
 export default Settings;
