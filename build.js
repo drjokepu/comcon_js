@@ -176,9 +176,21 @@ function makePluginDir() {
 
 function makePluginPackageJson() {
 	var deferred = Q.defer();
-	fs.writeFile(path.resolve(__dirname, path.join('.', 'plugins', 'package.json')), JSON.stringify(pluginPackageJson, null, '  '), function(err) {
+	var packageJsonPath = path.resolve(__dirname, path.join('.', 'plugins', 'package.json'));
+
+	fs.stat(packageJsonPath, function (err, stats) {
 		if (err) {
-			deferred.reject(err);
+			if (err.code === 'ENOENT') {
+				fs.writeFile(packageJsonPath, JSON.stringify(pluginPackageJson, null, '  '), function(err) {
+					if (err) {
+						deferred.reject(err);
+					} else {
+						deferred.resolve();
+					}
+				});
+			} else {
+				deferred.reject(err);
+			}
 		} else {
 			deferred.resolve();
 		}

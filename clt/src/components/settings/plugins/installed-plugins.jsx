@@ -33,6 +33,10 @@ class InstalledPluginsStore extends events.EventEmitter {
         return this.loading;
     }
 
+    getInstalledPlugins() {
+        return this.installedPlugins;
+    }
+
     emitChange() {
 		this.emit(InstalledPluginsStore.events.CHANGE);
 	}
@@ -107,8 +111,26 @@ var InstalledPlugins = React.createClass({
 
 var InstalledPluginList = React.createClass({
     render: function() {
-        return <span></span>;
+        let items = store.getInstalledPlugins().map(p => <InstalledPluginListItem plugin={p} />);
+        return <ul className="installed-plugin-list">{items}</ul>;
     }
 })
+
+var InstalledPluginListItem = React.createClass({
+    render: function() {
+        const pluginNameLabel = this.props.plugin.name;
+        const pluginVersionLabel = this.props.plugin.found ? this.props.plugin.version : 'missing';
+
+        return (
+            <li className="installed-plugin-list-item">
+                <div>
+                    <span className="installed-plugin-name">{pluginNameLabel}</span>
+                    <span> </span>
+                    <span className="installed-plugin-version">{pluginVersionLabel}</span>
+                </div>
+            </li>
+        );
+    }
+});
 
 export default InstalledPlugins;

@@ -3,9 +3,16 @@ import * as path from 'path';
 import Q from 'q';
 
 class Package {
-    constructor(name, version) {
+    constructor(name, info) {
         this.name = name;
-        this.version = version;
+        if (info) {
+            this.description = info.description;
+            this.version = info.version;
+            this.main = info.main;
+            this.found = true;
+        } else {
+            this.found = false;
+        }
     }
 
     static pluginsPath() {
@@ -13,16 +20,16 @@ class Package {
     }
 
     static pluginsPackageJsonPath() {
-        return path.join(Plugin.pluginsPath(), 'package.json');
+        return path.join(Package.pluginsPath(), 'package.json');
     }
 
     static packagePath(packageName) {
-        return path.join(Plugin.pluginsPath(), 'node_modules', packageName);
+        return path.join(Package.pluginsPath(), 'node_modules', packageName);
     }
 
     static requiredPackages() {
         let deferred = Q.defer();
-        fs.readFile(pluginsPackageJsonPath(), 'utf8', (err, data) => {
+        fs.readFile(Package.pluginsPackageJsonPath(), 'utf8', (err, data) => {
             if (err) {
                 deferred.reject(err);
                 return;
@@ -39,24 +46,33 @@ class Package {
     }
 
     static installedPlugins() {
-        return Package.requiredPackages().then(required => Q.all(required.map(name => getPackage(name))));
+        return Package.requiredPackages().then(required => Q.all(required.map(name => Package.getPackage(name))));
     }
 
     static async getPackage(packageName) {
-        const version = await packageVersion(packageName);
-        return new Package(packageName, version);
+        const info = await Package.packageInfo(packageName);
+        return new Package(packageName, info);
     }
 
-    static packageVersion(packageName) {
+    static packageInfo(packageName) {
         let deferred = Q.defer();
         fs.readFile(path.join(Package.packagePath(packageName), 'package.json'), 'utf8', (err, data) => {
             if (err) {
+                if (err.code === 'ENOENT') {
+                    deferred.resolve(null);
+                }
+
                 deferred.reject(err);
                 return;
             }
 
             try {
-                deferred.resolve(JSON.parse(data).version);
+                const pkg = JSON.parse(data);
+                deferred.resolve({
+                    description: pkg.description,
+                    version: pkg.version,
+                    main: pkg.main
+                });
             } catch (e) {
                 deferred.reject(e);
             }
