@@ -8,7 +8,7 @@ import stores from '../../../stores/stores.js';
 class InstalledPluginsStore extends events.EventEmitter {
     constructor(dispatcher) {
         super();
-        this.dispatcherIndex = dispatcher.register(::this.handleDispatcherEvent);
+        this.dispatcherIndex = dispatcher.register(this.handleDispatcherEvent.bind(this));
         this.loading = true;
         this.installedPlugins = null;
     }

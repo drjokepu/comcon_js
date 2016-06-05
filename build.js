@@ -79,7 +79,7 @@ function serverBabel() {
 	var name = 'babel (srv)';
 
 	var cmd = 'node "' + path.resolve(__dirname, path.join('.', 'node_modules', 'babel-cli', 'bin', 'babel.js')) + '"' +
-		' -q -s inline --presets es2015 --plugins transform-es2015-modules-commonjs,transform-async-to-generator,transform-function-bind -d "' +
+		' -q -s inline --presets es2015 --plugins transform-es2015-modules-commonjs,transform-async-to-generator -d "' +
 		path.resolve(__dirname, path.join('.', 'srv', 'bin')) + '" "' +
 		path.resolve(__dirname, path.join('.', 'srv', 'src')) + '"';
 
@@ -92,7 +92,7 @@ function clientBabel() {
 	var name = 'babel (clt)';
 
 	var cmd = 'node "' + path.resolve(__dirname, path.join('.', 'node_modules', 'babel-cli', 'bin', 'babel.js')) + '"' +
-		' -q -s inline --presets es2015,react --plugins transform-es2015-modules-commonjs,transform-async-to-generator,transform-function-bind -d "' +
+		' -q -s inline --presets es2015,react --plugins transform-es2015-modules-commonjs,transform-async-to-generator -d "' +
 		path.resolve(__dirname, path.join('.', 'clt', 'es5')) + '" "' +
 		path.resolve(__dirname, path.join('.', 'clt', 'src')) + '"';
 

@@ -4,7 +4,7 @@ export class RoutingStore extends events.EventEmitter {
     constructor(dispatcher) {
         super();
         this.path = RoutingStore.getInitialPath();
-        this.dispatcherIndex = dispatcher.register(::this.handleDispatcherEvent);
+        this.dispatcherIndex = dispatcher.register(this.handleDispatcherEvent.bind(this));
     }
 
     handleDispatcherEvent(ev) {

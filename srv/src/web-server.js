@@ -22,8 +22,8 @@ class WebServer {
 
     configure() {
         this.app.use(WebServer.log);
-        this.app.use(::this.router.route);
-        this.app.use(::this.spa.route);
+        this.app.use(this.router.route.bind(this));
+        this.app.use(this.spa.route.bind(this));
         this.app.use(koaConvert(mount('/js', koaStatic(path.resolve(__dirname, '..', '..', 'clt', 'bin')))));
         this.app.use(koaConvert(mount('/style', koaStatic(path.resolve(__dirname, '..', '..', 'style', 'css')))));
     }
